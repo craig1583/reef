@@ -37,6 +37,7 @@ public final class ResourceRequestEventImpl implements ResourceRequestEvent {
   private final Optional<Integer> virtualCores;
   private final Optional<Boolean> relaxLocality;
   private final String runtimeName;
+  private final String nodeLabelExpression;
 
   private ResourceRequestEventImpl(final Builder builder) {
     this.resourceCount = BuilderUtils.notNull(builder.resourceCount);
@@ -47,6 +48,12 @@ public final class ResourceRequestEventImpl implements ResourceRequestEvent {
     this.virtualCores = Optional.ofNullable(builder.virtualCores);
     this.relaxLocality = Optional.ofNullable(builder.relaxLocality);
     this.runtimeName = builder.runtimeName == null ? "" : builder.runtimeName;
+    this.nodeLabelExpression = builder.nodeLabelExpression == null ? "" : builder.nodeLabelExpression;
+  }
+
+  @Override
+  public String getNodeLabelExpression() {
+    return nodeLabelExpression;
   }
 
   @Override
@@ -105,6 +112,7 @@ public final class ResourceRequestEventImpl implements ResourceRequestEvent {
     private Integer virtualCores;
     private Boolean relaxLocality;
     private String runtimeName;
+    private String nodeLabelExpression;
 
     /**
      * Create a builder from an existing ResourceRequestEvent.
@@ -118,6 +126,15 @@ public final class ResourceRequestEventImpl implements ResourceRequestEvent {
       this.virtualCores = resourceRequestEvent.getVirtualCores().orElse(null);
       this.relaxLocality = resourceRequestEvent.getRelaxLocality().orElse(null);
       this.runtimeName = resourceRequestEvent.getRuntimeName();
+      this.nodeLabelExpression = resourceRequestEvent.getNodeLabelExpression();
+      return this;
+    }
+
+    /**
+     * set node label.
+     */
+    public Builder setNodeLabelExpression(final String nodeLabelExpression) {
+      this.nodeLabelExpression = nodeLabelExpression;
       return this;
     }
 

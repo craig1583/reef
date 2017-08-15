@@ -64,13 +64,21 @@ public final class YarnResourceRequestHandler implements ResourceRequestHandler 
     final Priority pri = getPriority(resourceRequestEvent);
     final Resource resource = getResource(resourceRequestEvent);
     final boolean relaxLocality = resourceRequestEvent.getRelaxLocality().orElse(true);
+    final String nodeLabelExpression = resourceRequestEvent.getNodeLabelExpression();
 
     final AMRMClient.ContainerRequest[] containerRequests =
         new AMRMClient.ContainerRequest[resourceRequestEvent.getResourceCount()];
 
+
     for (int i = 0; i < resourceRequestEvent.getResourceCount(); i++) {
-      containerRequests[i] = new AMRMClient.ContainerRequest(resource, nodes, racks, pri, relaxLocality);
+      if (nodeLabelExpression.equals("")) {
+        containerRequests[i] = new AMRMClient.ContainerRequest(resource, nodes, racks, pri, relaxLocality);
+      } else {
+        containerRequests[i] = new AMRMClient.ContainerRequest(resource, nodes, racks, pri, relaxLocality,
+            nodeLabelExpression);
+      }
     }
+
     this.yarnContainerRequestHandler.onContainerRequest(containerRequests);
   }
 

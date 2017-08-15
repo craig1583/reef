@@ -19,6 +19,9 @@
 package org.apache.reef.driver.evaluator;
 
 import org.apache.reef.driver.catalog.NodeDescriptor;
+import org.apache.reef.util.Optional;
+
+import java.util.Set;
 
 /**
  * Metadata about an Evaluator.
@@ -49,4 +52,9 @@ public interface EvaluatorDescriptor {
    * @return name of the runtime that was used to allocate this Evaluator
    */
   String getRuntimeName();
+
+  /**
+   * @return node label expressions allocated to this Evaluator
+   */
+  Optional<Set<String>> getNodeLabelExpressions();
 }

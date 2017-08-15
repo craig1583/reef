@@ -22,6 +22,8 @@ import org.apache.reef.annotations.audience.DriverSide;
 import org.apache.reef.annotations.audience.Private;
 import org.apache.reef.util.Optional;
 
+import java.util.Set;
+
 /**
  * An interface capturing the characteristics of a resource event.
  */
@@ -58,4 +60,9 @@ public interface ResourceEvent {
    * @return Runtime name of the resource
    */
   String getRuntimeName();
+
+  /**
+   * @return node label expression of the resource
+   */
+  Optional<Set<String>> getNodeLabelExpressions();
 }

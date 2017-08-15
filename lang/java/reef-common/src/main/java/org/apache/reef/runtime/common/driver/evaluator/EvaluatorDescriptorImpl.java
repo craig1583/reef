@@ -23,6 +23,9 @@ import org.apache.reef.annotations.audience.Private;
 import org.apache.reef.driver.catalog.NodeDescriptor;
 import org.apache.reef.driver.evaluator.EvaluatorDescriptor;
 import org.apache.reef.driver.evaluator.EvaluatorProcess;
+import org.apache.reef.util.Optional;
+
+import java.util.Set;
 
 /**
  * A simple all-data implementation of EvaluatorDescriptor.
@@ -36,17 +39,28 @@ final class EvaluatorDescriptorImpl implements EvaluatorDescriptor {
   private final int numberOfCores;
   private EvaluatorProcess process;
   private final String runtimeName;
+  private final Optional<Set<String>> nodeLabelExpressions;
 
   EvaluatorDescriptorImpl(final NodeDescriptor nodeDescriptor,
                           final int megaBytes,
                           final int numberOfCores,
                           final EvaluatorProcess process,
                           final String runtimeName) {
+    this(nodeDescriptor, megaBytes, numberOfCores, process, runtimeName, Optional.<Set<String>>empty());
+  }
+
+  EvaluatorDescriptorImpl(final NodeDescriptor nodeDescriptor,
+                          final int megaBytes,
+                          final int numberOfCores,
+                          final EvaluatorProcess process,
+                          final String runtimeName,
+                          final Optional<Set<String>> nodeLabelExpressions) {
     this.nodeDescriptor = nodeDescriptor;
     this.megaBytes = megaBytes;
     this.numberOfCores = numberOfCores;
     this.process = process;
     this.runtimeName = runtimeName;
+    this.nodeLabelExpressions = nodeLabelExpressions;
   }
 
   @Override
@@ -79,5 +93,9 @@ final class EvaluatorDescriptorImpl implements EvaluatorDescriptor {
   @Override
   public String getRuntimeName() {
     return this.runtimeName;
+  }
+
+  public Optional<Set<String>> getNodeLabelExpressions() {
+    return this.nodeLabelExpressions;
   }
 }

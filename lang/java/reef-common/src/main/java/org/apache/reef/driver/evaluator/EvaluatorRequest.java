@@ -41,13 +41,14 @@ public final class EvaluatorRequest {
   private final List<String> rackNames;
   private final String runtimeName;
   private final boolean relaxLocality;
+  private final String nodeLabelExpression;
 
   EvaluatorRequest(final int number,
                    final int megaBytes,
                    final int cores,
                    final List<String> nodeNames,
                    final List<String> rackNames) {
-    this(number, megaBytes, cores, nodeNames, rackNames, "");
+    this(number, megaBytes, cores, nodeNames, rackNames, "", "", true);
   }
 
   EvaluatorRequest(final int number,
@@ -56,9 +57,8 @@ public final class EvaluatorRequest {
                    final List<String> nodeNames,
                    final List<String> rackNames,
                    final String runtimeName) {
-    this(number, megaBytes, cores, nodeNames, rackNames, runtimeName, true);
+    this(number, megaBytes, cores, nodeNames, rackNames, runtimeName, "", true);
   }
-
 
   EvaluatorRequest(final int number,
                    final int megaBytes,
@@ -66,6 +66,7 @@ public final class EvaluatorRequest {
                    final List<String> nodeNames,
                    final List<String> rackNames,
                    final String runtimeName,
+                   final String nodeLabelExpression,
                    final boolean relaxLocality) {
     this.number = number;
     this.megaBytes = megaBytes;
@@ -74,6 +75,7 @@ public final class EvaluatorRequest {
     this.rackNames = rackNames;
     this.runtimeName = runtimeName;
     this.relaxLocality = relaxLocality;
+    this.nodeLabelExpression = nodeLabelExpression;
   }
 
   /**
@@ -93,6 +95,15 @@ public final class EvaluatorRequest {
    */
   public static Builder newBuilder(final EvaluatorRequest request) {
     return new Builder(request);
+  }
+
+  /**
+   * Access the node label requested.
+   *
+   * @return node label.
+   */
+  public String getNodeLabelExpression() {
+    return this.nodeLabelExpression;
   }
 
   /**
@@ -170,6 +181,7 @@ public final class EvaluatorRequest {
     private final List<String> nodeNames = new ArrayList<>();
     private final List<String> rackNames = new ArrayList<>();
     private String runtimeName = "";
+    private String nodeLabelExpression = "";
     private boolean relaxLocality = true; //if not set, default to true
 
     @Private
@@ -188,12 +200,19 @@ public final class EvaluatorRequest {
       setNumberOfCores(request.getNumberOfCores());
       setRuntimeName(request.getRuntimeName());
       setRelaxLocality(request.getRelaxLocality());
+      setNodeLabelExpression(request.getNodeLabelExpression());
       for (final String nodeName : request.getNodeNames()) {
         addNodeName(nodeName);
       }
       for (final String rackName : request.getRackNames()) {
         addRackName(rackName);
       }
+    }
+
+    @SuppressWarnings("checkstyle:hiddenfield")
+    public T setNodeLabelExpression(final String nodeLabelExpression) {
+      this.nodeLabelExpression = nodeLabelExpression;
+      return (T) this;
     }
 
     /**
@@ -304,8 +323,8 @@ public final class EvaluatorRequest {
      */
     @Override
     public EvaluatorRequest build() {
-      return new EvaluatorRequest(this.n, this.megaBytes, this.cores, this.nodeNames,
-                                  this.rackNames, this.runtimeName, this.relaxLocality);
+      return new EvaluatorRequest(this.n, this.megaBytes, this.cores,
+          this.nodeNames, this.rackNames, this.runtimeName, this.nodeLabelExpression, this.relaxLocality);
     }
   }
 }

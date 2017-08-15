@@ -35,6 +35,11 @@ import java.util.List;
 public interface ResourceRequestEvent {
 
   /**
+   * @return A node label.
+   */
+  String getNodeLabelExpression();
+
+  /**
    * @return The number of resources requested
    */
   int getResourceCount();
