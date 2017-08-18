@@ -554,7 +554,7 @@ final class YarnContainerManager implements AMRMClientAsync.CallbackHandler, NMC
 
       client.stop();
 
-      Map<String, String> nodeLabelExpressions = new HashMap<String, String>();
+      Map<String, String> nodeLabelExpressions = new HashMap<>();
 
       if (yarnNodeLabelExpressions != null) {
         for (String nodeLabelExpression: yarnNodeLabelExpressions) {
