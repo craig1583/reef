@@ -21,7 +21,7 @@ package org.apache.reef.runtime.common.driver.resourcemanager;
 import org.apache.reef.util.BuilderUtils;
 import org.apache.reef.util.Optional;
 
-import java.util.Set;
+import java.util.Map;
 
 /**
  * Default POJO implementation of ResourceAllocationEvent and ResourceRecoverEvent.
@@ -35,7 +35,7 @@ public final class ResourceEventImpl implements ResourceAllocationEvent, Resourc
   private final Optional<Integer> virtualCores;
   private final Optional<String> rackName;
   private final String runtimeName;
-  private final Optional<Set<String>> nodeLabelExpressions;
+  private final Optional<Map<String, String>> nodeLabelExpressions;
 
 
   private ResourceEventImpl(final Builder builder) {
@@ -79,7 +79,7 @@ public final class ResourceEventImpl implements ResourceAllocationEvent, Resourc
   }
 
   @Override
-  public Optional<Set<String>> getNodeLabelExpressions() {
+  public Optional<Map<String, String>> getNodeLabelExpressions() {
     return nodeLabelExpressions;
   }
 
@@ -103,7 +103,7 @@ public final class ResourceEventImpl implements ResourceAllocationEvent, Resourc
     private Integer virtualCores;
     private String rackName;
     private String runtimeName;
-    private Set<String> nodeLabelExpressions;
+    private Map<String, String> nodeLabelExpressions;
 
     private Builder(final boolean recovery){
       this.recovery = recovery;
@@ -161,7 +161,7 @@ public final class ResourceEventImpl implements ResourceAllocationEvent, Resourc
      * @see ResourceAllocationEvent#getNodeLabelExpressions()
      * @param nodeLabelExpressions
      */
-    public Builder setNodeLabelExpressions(final Set<String> nodeLabelExpressions) {
+    public Builder setNodeLabelExpressions(final Map<String, String> nodeLabelExpressions) {
       this.nodeLabelExpressions = nodeLabelExpressions;
       return this;
     }

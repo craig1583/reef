@@ -28,7 +28,6 @@ import org.apache.reef.tang.Tang;
 import org.apache.reef.tang.exceptions.InjectionException;
 import org.apache.reef.tang.formats.ConfigurationModule;
 import org.apache.reef.tang.formats.ConfigurationModuleBuilder;
-import org.apache.reef.util.Optional;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,7 +37,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Test Avro Serializer for http schema.
@@ -166,8 +164,8 @@ public class TestAvroSerializerForHttp {
     }
 
     @Override
-    public Optional<Set<String>> getNodeLabelExpressions() {
-      return Optional.empty();
+    public Map<String, String> getNodeLabelExpressions() {
+      return new HashMap<>();
     }
   }
 

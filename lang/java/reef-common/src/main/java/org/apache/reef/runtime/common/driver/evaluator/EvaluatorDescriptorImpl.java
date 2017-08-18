@@ -25,7 +25,7 @@ import org.apache.reef.driver.evaluator.EvaluatorDescriptor;
 import org.apache.reef.driver.evaluator.EvaluatorProcess;
 import org.apache.reef.util.Optional;
 
-import java.util.Set;
+import java.util.Map;
 
 /**
  * A simple all-data implementation of EvaluatorDescriptor.
@@ -39,14 +39,14 @@ final class EvaluatorDescriptorImpl implements EvaluatorDescriptor {
   private final int numberOfCores;
   private EvaluatorProcess process;
   private final String runtimeName;
-  private final Optional<Set<String>> nodeLabelExpressions;
+  private final Optional<Map<String, String>> nodeLabelExpressions;
 
   EvaluatorDescriptorImpl(final NodeDescriptor nodeDescriptor,
                           final int megaBytes,
                           final int numberOfCores,
                           final EvaluatorProcess process,
                           final String runtimeName) {
-    this(nodeDescriptor, megaBytes, numberOfCores, process, runtimeName, Optional.<Set<String>>empty());
+    this(nodeDescriptor, megaBytes, numberOfCores, process, runtimeName, Optional.<Map<String, String>>empty());
   }
 
   EvaluatorDescriptorImpl(final NodeDescriptor nodeDescriptor,
@@ -54,7 +54,7 @@ final class EvaluatorDescriptorImpl implements EvaluatorDescriptor {
                           final int numberOfCores,
                           final EvaluatorProcess process,
                           final String runtimeName,
-                          final Optional<Set<String>> nodeLabelExpressions) {
+                          final Optional<Map<String, String>> nodeLabelExpressions) {
     this.nodeDescriptor = nodeDescriptor;
     this.megaBytes = megaBytes;
     this.numberOfCores = numberOfCores;
@@ -95,7 +95,7 @@ final class EvaluatorDescriptorImpl implements EvaluatorDescriptor {
     return this.runtimeName;
   }
 
-  public Optional<Set<String>> getNodeLabelExpressions() {
-    return this.nodeLabelExpressions;
+  public Map<String, String> getNodeLabelExpressions() {
+    return this.nodeLabelExpressions.get();
   }
 }

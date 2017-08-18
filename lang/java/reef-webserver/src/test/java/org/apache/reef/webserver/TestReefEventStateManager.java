@@ -30,7 +30,6 @@ import org.apache.reef.tang.Configuration;
 import org.apache.reef.tang.Injector;
 import org.apache.reef.tang.Tang;
 import org.apache.reef.tang.exceptions.InjectionException;
-import org.apache.reef.util.Optional;
 import org.apache.reef.wake.remote.RemoteConfiguration;
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,8 +37,8 @@ import org.junit.Test;
 
 import javax.inject.Inject;
 import java.net.InetSocketAddress;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Test ReefEventStateManager.
@@ -132,8 +131,8 @@ final class MockEvaluatorDescriptor implements EvaluatorDescriptor {
   }
 
   @Override
-  public Optional<Set<String>> getNodeLabelExpressions() {
-    return Optional.empty();
+  public Map<String, String> getNodeLabelExpressions() {
+    return new HashMap<>();
   }
 }
 

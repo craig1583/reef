@@ -543,15 +543,24 @@ final class YarnContainerManager implements AMRMClientAsync.CallbackHandler, NMC
       client.init(new YarnConfiguration());
       client.start();
 
-      Set<String> nodeLabelExpressions;
+      Set<String> yarnNodeLabelExpressions;
+
       try {
-        nodeLabelExpressions = client.getNodeToLabels().get(container.getNodeId());
+        yarnNodeLabelExpressions = client.getNodeToLabels().get(container.getNodeId());
       } catch (final YarnException | IOException e) {
         LOG.log(Level.WARNING, "Error getting labels for node: " + container.getNodeId(), e);
-        nodeLabelExpressions = null;
+        yarnNodeLabelExpressions = null;
       }
 
       client.stop();
+
+      Map<String, String> nodeLabelExpressions = new HashMap<String, String>();
+
+      if (yarnNodeLabelExpressions != null) {
+        for (String nodeLabelExpression: yarnNodeLabelExpressions) {
+          nodeLabelExpressions.put(nodeLabelExpression, null);
+        }
+      }
 
       this.reefEventHandlers.onResourceAllocation(ResourceEventImpl.newAllocationBuilder()
           .setIdentifier(container.getId().toString())

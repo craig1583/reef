@@ -30,7 +30,7 @@ import org.apache.reef.wake.time.event.StartTime;
 import org.apache.reef.wake.time.event.StopTime;
 
 import javax.inject.Inject;
-import java.util.Set;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -78,13 +78,13 @@ final class NodeLabelTestDriver {
     public void onNext(final AllocatedEvaluator allocatedEvaluator) {
       LOG.log(Level.INFO, "Evaluator Allocated: {0}", allocatedEvaluator);
 
-      final Set<String> nodeLabelExpressions =
-          allocatedEvaluator.getEvaluatorDescriptor().getNodeLabelExpressions().get();
+      final Map<String, String> nodeLabelExpressions =
+          allocatedEvaluator.getEvaluatorDescriptor().getNodeLabelExpressions();
       LOG.log(Level.INFO, "Node Labels on this node: {0}", nodeLabelExpressions);
 
       if (nodeLabelExpressions == null) {
         NodeLabelTestDriver.this.defaultContainerCount++;
-      } else if (nodeLabelExpressions.contains("mylabel")) {
+      } else if (nodeLabelExpressions.containsKey("mylabel")) {
         NodeLabelTestDriver.this.labeledContainerCount++;
       }
 

@@ -99,11 +99,6 @@ under the License.
             <version>${hadoop.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-yarn-client</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!-- End of HADOOP -->
     </dependencies>
 
