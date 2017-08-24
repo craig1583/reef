@@ -18,6 +18,6 @@
  */
 
 /**
- * Test reef.io.watcher.
+ * Test whether preemption handler is called when a YARN container is preempted.
  */
 package org.apache.reef.tests.yarnpreemption;

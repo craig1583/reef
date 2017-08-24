@@ -684,14 +684,20 @@ public final class EvaluatorManager implements Identifiable, AutoCloseable {
               .append("] was running when the Evaluator crashed.");
         }
 
-        if (resourceStatusEvent.getState() == State.KILLED) {
-          this.onEvaluatorException(
-              new EvaluatorKilledByResourceManagerException(this.evaluatorId, messageBuilder.toString()));
-        } else if (resourceStatusEvent.getState() == State.PREEMPTED) {
-          this.onEvaluatorException(new EvaluatorPreemptedException(this.evaluatorId, messageBuilder.toString()));
-        } else {
-          this.onEvaluatorException(new EvaluatorException(this.evaluatorId, messageBuilder.toString()));
+        final String msg = messageBuilder.toString();
+        final EvaluatorException evaluatorException;
+
+        switch (resourceStatusEvent.getState()) {
+        case KILLED:
+          evaluatorException = new EvaluatorKilledByResourceManagerException(this.evaluatorId, msg);
+          break;
+        case PREEMPTED:
+          evaluatorException = new EvaluatorPreemptedException(this.evaluatorId, msg);
+          break;
+        default:
+          evaluatorException = new EvaluatorException(this.evaluatorId, msg);
         }
+        this.onEvaluatorException(evaluatorException);
       }
     }
   }

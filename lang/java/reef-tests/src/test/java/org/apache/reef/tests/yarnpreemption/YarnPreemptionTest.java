@@ -29,10 +29,16 @@ import org.apache.reef.tests.TestEnvironmentFactory;
 import org.apache.reef.util.EnvironmentUtils;
 import org.junit.*;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Tests whether REEF can handle PreemptedEvaluator when a YARN container is preempted.
  */
 public class YarnPreemptionTest {
+
+  private static final Logger LOG = Logger.getLogger(YarnPreemptionTest.class.getName());
+
   private final TestEnvironment testEnvironment = TestEnvironmentFactory.getNewTestEnvironment();
 
   @Before
@@ -48,9 +54,8 @@ public class YarnPreemptionTest {
   private void runYarnPreemptionTest() throws InjectionException, InterruptedException {
     final Configuration runtimeConfiguration = this.testEnvironment.getRuntimeConfiguration();
 
-    Thread preempteeThread = new Thread() {
+    final Thread preempteeThread = new Thread() {
       public void run() {
-
         final Configuration testConfigurationB = YarnPreemptionTestConfiguration.CONF
             .set(YarnPreemptionTestConfiguration.JOB_QUEUE, "B")
             .build();
@@ -67,7 +72,6 @@ public class YarnPreemptionTest {
                 YarnPreemptionTestPreempteeDriver.EvaluatorFailedHandler.class)
             .build();
 
-
         final Configuration mergedDriverConfiguration = Tang.Factory.getTang()
             .newConfigurationBuilder(driverConfiguration, testConfigurationB).build();
 
@@ -75,20 +79,18 @@ public class YarnPreemptionTest {
           final LauncherStatus state = DriverLauncher.getLauncher(runtimeConfiguration)
               .run(mergedDriverConfiguration, testEnvironment.getTestTimeout());
           Assert.assertTrue("Job B (preemptee) state after execution: " + state, state.isDone());
-
-        } catch (InjectionException e) {
-          e.printStackTrace();
+        } catch (final InjectionException e) {
+          LOG.log(Level.SEVERE, "Invalid configuration", e);
         }
       }
     };
 
-    Thread preemptorThread = new Thread() {
+    final Thread preemptorThread = new Thread() {
       public void run() {
-
         try {
           Thread.sleep(6000);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
+        } catch (final InterruptedException e) {
+          LOG.log(Level.SEVERE, "Interrupt occurred", e);
         }
 
         final Configuration testConfigurationA = YarnPreemptionTestConfiguration.CONF
@@ -110,10 +112,9 @@ public class YarnPreemptionTest {
           final LauncherStatus state = DriverLauncher.getLauncher(runtimeConfiguration)
               .run(mergedDriverConfiguration, testEnvironment.getTestTimeout());
           Assert.assertTrue("Job A (preemptor) state after execution: " + state, state.isSuccess());
-        } catch (InjectionException e) {
-          e.printStackTrace();
+        } catch (final InjectionException e) {
+          LOG.log(Level.SEVERE, "Invalid configuration", e);
         }
-
       }
     };
 

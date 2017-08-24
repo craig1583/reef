@@ -23,7 +23,7 @@ import org.apache.reef.task.Task;
 import javax.inject.Inject;
 import java.util.concurrent.CountDownLatch;
 
-final class YarnPreemptionTask implements Task{
+final class YarnPreemptionTask implements Task {
 
   private final CountDownLatch countDownLatch = new CountDownLatch(1);
 

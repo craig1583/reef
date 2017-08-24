@@ -32,7 +32,7 @@ import java.util.List;
 @Private
 final class PreemptedEvaluatorImpl implements PreemptedEvaluator {
 
-  final String id;
+  private final String id;
   private final EvaluatorException ex;
   private final List<FailedContext> ctx;
   private final Optional<FailedTask> task;
