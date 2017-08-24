@@ -43,15 +43,15 @@ public class YarnPreemptionTest {
    */
   private static final int JOB_TIMEOUT = 100000; // 100 sec.
 
-  private static final Configuration runtimeConfiguration = YarnClientConfiguration.CONF.build();
+  private static final Configuration RUNTIME_CONFIGURATION = YarnClientConfiguration.CONF.build();
 
-  private static final Configuration testConfigurationB = YarnPreemptionTestConfiguration.CONF
+  private static final Configuration TEST_CONFIGURATION_B = YarnPreemptionTestConfiguration.CONF
       .set(YarnPreemptionTestConfiguration.JOB_QUEUE, "B")
       .build();
 
-  private static final Tang tang = Tang.Factory.getTang();
+  private static final Tang TANG = Tang.Factory.getTang();
 
-  private static final Configuration driverConfigurationB = DriverConfiguration.CONF
+  private static final Configuration DRIVER_CONFIGURATION_B = DriverConfiguration.CONF
       .set(DriverConfiguration.GLOBAL_LIBRARIES, EnvironmentUtils.getClassLocation(YarnPreemptionTest.class))
       .set(DriverConfiguration.DRIVER_IDENTIFIER, "TEST_YarnPreemptionTest_Preemptee")
       .set(DriverConfiguration.ON_DRIVER_STARTED, YarnPreemptionTestPreempteeDriver.StartHandler.class)
@@ -63,15 +63,15 @@ public class YarnPreemptionTest {
           YarnPreemptionTestPreempteeDriver.EvaluatorFailedHandler.class)
       .build();
 
-  private static final Configuration mergedDriverConfigurationB =
-      tang.newConfigurationBuilder(driverConfigurationB, testConfigurationB).build();
+  private static final Configuration MERGED_DRIVER_CONFIGURATION_B =
+      TANG.newConfigurationBuilder(DRIVER_CONFIGURATION_B, TEST_CONFIGURATION_B).build();
 
 
-  private static final Configuration testConfigurationA = YarnPreemptionTestConfiguration.CONF
+  private static final Configuration TEST_CONFIGURATION_A = YarnPreemptionTestConfiguration.CONF
       .set(YarnPreemptionTestConfiguration.JOB_QUEUE, "A")
       .build();
 
-  private static final Configuration driverConfigurationA = DriverConfiguration.CONF
+  private static final Configuration DRIVER_CONFIGURATION_A = DriverConfiguration.CONF
       .set(DriverConfiguration.GLOBAL_LIBRARIES, EnvironmentUtils.getClassLocation(YarnPreemptionTest.class))
       .set(DriverConfiguration.DRIVER_IDENTIFIER, "TEST_YarnPreemptionTest_Preemptor")
       .set(DriverConfiguration.ON_DRIVER_STARTED, YarnPreemptionTestPreemptorDriver.StartHandler.class)
@@ -79,8 +79,8 @@ public class YarnPreemptionTest {
           YarnPreemptionTestPreemptorDriver.EvaluatorAllocatedHandler.class)
       .build();
 
-  private static final Configuration mergedDriverConfigurationA =
-      tang.newConfigurationBuilder(driverConfigurationA, testConfigurationA).build();
+  private static final Configuration MERGED_DRIVER_CONFIGURATION_A =
+      TANG.newConfigurationBuilder(DRIVER_CONFIGURATION_A, TEST_CONFIGURATION_A).build();
 
 
   private void runYarnPreemptionTest() throws InjectionException, InterruptedException {
@@ -88,8 +88,8 @@ public class YarnPreemptionTest {
     final Thread preempteeThread = new Thread() {
       public void run() {
         try {
-          final LauncherStatus state = DriverLauncher.getLauncher(runtimeConfiguration)
-              .run(mergedDriverConfigurationB, JOB_TIMEOUT);
+          final LauncherStatus state = DriverLauncher.getLauncher(RUNTIME_CONFIGURATION)
+              .run(MERGED_DRIVER_CONFIGURATION_B, JOB_TIMEOUT);
           Assert.assertTrue("Job B (preemptee) state after execution: " + state, state.isDone());
         } catch (final InjectionException e) {
           LOG.log(Level.SEVERE, "Invalid configuration", e);
@@ -106,8 +106,8 @@ public class YarnPreemptionTest {
         }
 
         try {
-          final LauncherStatus state = DriverLauncher.getLauncher(runtimeConfiguration)
-              .run(mergedDriverConfigurationA, JOB_TIMEOUT);
+          final LauncherStatus state = DriverLauncher.getLauncher(RUNTIME_CONFIGURATION)
+              .run(MERGED_DRIVER_CONFIGURATION_A, JOB_TIMEOUT);
           Assert.assertTrue("Job A (preemptor) state after execution: " + state, state.isSuccess());
         } catch (final InjectionException e) {
           LOG.log(Level.SEVERE, "Invalid configuration", e);
