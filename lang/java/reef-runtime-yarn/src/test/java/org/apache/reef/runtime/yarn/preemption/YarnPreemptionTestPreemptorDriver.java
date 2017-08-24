@@ -22,7 +22,6 @@ import org.apache.reef.driver.evaluator.AllocatedEvaluator;
 import org.apache.reef.driver.evaluator.EvaluatorRequest;
 import org.apache.reef.driver.evaluator.EvaluatorRequestor;
 import org.apache.reef.driver.task.TaskConfiguration;
-import org.apache.reef.examples.hello.HelloTask;
 import org.apache.reef.tang.Configuration;
 import org.apache.reef.tang.annotations.Unit;
 import org.apache.reef.wake.EventHandler;
@@ -62,7 +61,7 @@ final class YarnPreemptionTestPreemptorDriver {
       LOG.log(Level.INFO, "Submitting HelloREEF task to AllocatedEvaluator: {0}", allocatedEvaluator);
       final Configuration taskConfiguration = TaskConfiguration.CONF
           .set(TaskConfiguration.IDENTIFIER, "HelloREEFTask")
-          .set(TaskConfiguration.TASK, HelloTask.class)
+          .set(TaskConfiguration.TASK, YarnPreemptorTask.class)
           .build();
       allocatedEvaluator.submitTask(taskConfiguration);
     }

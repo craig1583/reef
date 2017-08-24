@@ -60,10 +60,10 @@ final class YarnPreemptionTestPreempteeDriver {
 
     @Override
     public void onNext(final AllocatedEvaluator allocatedEvaluator) {
-      LOG.log(Level.INFO, "Start YarnPreemptionTask to AllocatedEvaluator: {0}", allocatedEvaluator);
+      LOG.log(Level.INFO, "Start YarnPreempteeTask to AllocatedEvaluator: {0}", allocatedEvaluator);
       final Configuration taskConfiguration = TaskConfiguration.CONF
-          .set(TaskConfiguration.TASK, YarnPreemptionTask.class)
-          .set(TaskConfiguration.IDENTIFIER, "YarnPreemptionTask")
+          .set(TaskConfiguration.TASK, YarnPreempteeTask.class)
+          .set(TaskConfiguration.IDENTIFIER, "YarnPreempteeTask")
           .build();
       allocatedEvaluator.submitTask(taskConfiguration);
     }
