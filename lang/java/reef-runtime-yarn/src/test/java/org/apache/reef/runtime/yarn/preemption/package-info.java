@@ -16,20 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.reef.tests.yarnpreemption;
-
-import org.apache.reef.runtime.yarn.client.parameters.JobQueue;
-import org.apache.reef.tang.formats.ConfigurationModule;
-import org.apache.reef.tang.formats.ConfigurationModuleBuilder;
-import org.apache.reef.tang.formats.RequiredParameter;
 
 /**
- * Configuration for YarnPreemptionTest.
+ * Test whether preemption handler is called when a YARN container is preempted.
  */
-public final class YarnPreemptionTestConfiguration extends ConfigurationModuleBuilder {
-
-  public static final RequiredParameter<String> JOB_QUEUE = new RequiredParameter<>();
-  public static final ConfigurationModule CONF = new YarnPreemptionTestConfiguration()
-      .bindNamedParameter(JobQueue.class, JOB_QUEUE)
-      .build();
-}
+package org.apache.reef.runtime.yarn.preemption;

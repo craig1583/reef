@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.reef.tests.yarnpreemption;
+package org.apache.reef.runtime.yarn.preemption;
 
 import org.apache.reef.driver.evaluator.*;
 import org.apache.reef.driver.task.TaskConfiguration;
