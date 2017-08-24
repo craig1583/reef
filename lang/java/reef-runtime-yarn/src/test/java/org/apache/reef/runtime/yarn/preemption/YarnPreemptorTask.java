@@ -21,7 +21,6 @@ package org.apache.reef.runtime.yarn.preemption;
 import org.apache.reef.task.Task;
 
 import javax.inject.Inject;
-import java.util.concurrent.CountDownLatch;
 
 final class YarnPreemptorTask implements Task {
 
